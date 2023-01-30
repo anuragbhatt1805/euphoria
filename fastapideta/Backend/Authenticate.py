@@ -54,13 +54,13 @@ def get_user(username:str, db:Session):
 def Login(data:OAuth2PasswordRequestForm, db:Session):
     user = get_user(data.username, db)
     if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"No User Registered with given credential")
+        return None
     else:
         if verify_password(data.password, user.password):
             access_token = create_access_token({"username":user.usn, "password":data.password}, user.role)
-            return Schema.Token(access_token=access_token, token_type='bearer')
+            return Schema.Token(access_token=access_token, token_type='bearer', user=user.role)
         else:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=f"Invalid credential")
+            return None
 
 def get_current_user(token : str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
@@ -73,7 +73,7 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
         username : str = result.get("username")
         role : str = result.get("user")
         if username is None:
-            raise credentials_exception
+            return None
         data = Schema.UserData(username = username, user = role)
     except Exception as e:
         raise credentials_exception

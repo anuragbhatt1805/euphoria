@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"
+        integrity="sha512-y6ZMKFUQrn+UUEVoqYe8ApScqbjuhjqzTuwUMEGMDuhS2niI8KA3vhH2LenreqJXQS+iIXVTRL2iaNfJbDNA1Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .main-container {
+            height: 179vh;
+        }
+
+        input:focus-visible {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex justify-center items-center main-container bg-gradient-to-b from-purple-700 via bg-pink-200">
+        <div class="w-1/4 shadow-lg p-5 rounded bg-white">
+            <p class="font-bold text-2xl text-center mt-2 mb-2">LOGIN</p>
+            <div class="mb-2">
+                <label for="playeruser">Username</label> <br />
+                <input type="text" name="username" id="username" required placeholder="Type your username"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
+            </div>
+            <div>
+                <label for="playerpassword">Password</label> <br />
+                <input type="password" name="password" id="password" required placeholder="Type you're password"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
+            </div>
+            <button id="login-button" onclick="auth()"
+                class="block bg-gradiant-to-r  from-purple-700 via bg-pink-200 text-white pt-3 pb-3 pl-6 pr-6 rounded w-25 mt-2 hover:bg-purple-500">
+                LOGIN
+            </button>
+            <script>
+                function auth() {
+                    var username = document.getElementById("username").value;
+                    var password = document.getElementById("password").value;
+                    var data = {
+                        "username": username,
+                        "password": password
+                    };
+                    fetch("/login", {
+                        method: "POST",
+                        headers: {
+                            "accept": "application/json",
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: new URLSearchParams(data)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data === null) {
+                                alert("Invalid Credential");
+                                window.location.href = '/login';
+                            } else {
+                                localStorage.setItem("access_token", data.access_token);
+                                localStorage.setItem("user", data.user);
+                                window.location.href = '/';
+                            }
+                        })
+                        .catch(error => {
+                            alert("Cannot Login Due to Some Internal Error");
+                        });
+                }
+                
+            </script>
+            <a href="/signup" class="text-center block mt-10">Register now!</a>
+            
+        </div>
+    </div>
+</body>
+
+</html>

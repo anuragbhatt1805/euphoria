@@ -22,17 +22,17 @@ def create_account(request:Schema.Create_Acc, db:Session = Depends(db)):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Admin Account can not be created from here")
         new_user = Auth.AddUser(request, db)
         if type(new_user) == models.User:
-            return RedirectResponse('/home', status_code=status.HTTP_200_OK)
+            return new_user
         else:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Account was not created")
     else:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Account with USN {request.usn} already registered")
+        return None
 
 @router.get('/login', response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def load_login_page(request:Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
-@router.post('/login', response_model=Schema.Token, status_code=status.HTTP_200_OK)
+@router.post('/login', status_code=status.HTTP_200_OK)
 async def user_login(request:OAuth2PasswordRequestForm = Depends(), db : Session = Depends(db)):
     access_token = Auth.Login(request, db)
     return access_token

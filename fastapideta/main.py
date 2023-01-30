@@ -12,7 +12,6 @@ app = FastAPI(
     title="Euphoria Sports",
     description="18CSL58 DBMS Laboratory Mini Project on Sports Management System",
     version="2.1.0",
-    swagger_ui_oauth2_redirect_url='/login',
     contact={
         "Developer 1": {
             "Name" : "Anurag Bhatt",

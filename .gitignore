@@ -1,0 +1,7 @@
+pyvenv.cfg
+.vscode
+/Lib
+/Scripts
+/Include
+/fastapideta/_pycache_
+/fastapideta/.deta
