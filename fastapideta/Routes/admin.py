@@ -90,7 +90,7 @@ def tournament(request:Request, current_user:Schema.UserData=Depends(Auth.get_cu
 def redirect_to_tournament(id:int, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     return RedirectResponse(f'/tournament/{id}')
 
-@router.get("/addtournament",response_class=HTMLResponse, response_model=Schema.Game, status_code=status.HTTP_200_OK)
+@router.get("/addtournament",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def add_tournament_page(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):
     if current_user.user == 'admin':
         coach = Admin.All_Coach(db)

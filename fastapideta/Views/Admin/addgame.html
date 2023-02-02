@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Game to tournament</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"
+        referrerpolicy="no-referrer"
+        integrity="sha512-y6ZMKFUQrn+UUEVoqYe8ApScqbjuhjqzTuwUMEGMDuhS2niI8KA3vhH2LenreqJXQS+iIXVTRL2iaNfJbDNA1Q=="
+        crossorigin="anonymous" />
+    <style>
+        .main-container {
+            height: 186vh;
+        }
+
+        input:focus-visible {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex justify-center items-center main-container bg-gradient-to-b from-purple-600 via bg-pink-200">
+        <div class="w-1/4 shadow-lg p-7 rounded bg-white">
+            <p class="font-bold text-2xl text-center mt-3 mb-8"> ADD GAME</p>
+            <div class="mb-2">
+                <label for="name" class="font-bold mb-2 text-sm">Game Name</label> <br />
+                <input type="text" id="game_name" placeholder="Type game name"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
+            </div>
+            <div id="game_type" class="text-sm mb-2">
+                <label class="font-bold mb-2 text-sm">Role:</label> <br />
+                <input type="radio" name="choose" id="indoor" class="text-sm-mx-1"><label for="Indoor">Indoor</label>
+                <input type="radio" name="choose" id="outdoor" class="text-sm-mx-1"><label for="Outdoor">Outdoor</label>
+            </div>
+            <button
+                class=" block bg-gradiant-to-r  from-purple-700 via bg-pink-200 text-white pt-3 pb-3 pl-6 pr-6 rounded w-full mt-2 hover:bg-purple-500"
+                onclick="register()">
+                SUBMIT </button>
+            <p class="text-center block mt-10">Don't wanna add new game!<a href="game"
+                    class="text-center block text-purple-900">GAME PAGE</a></p>
+        </div>
+    </div>
+    <script>
+        let Indoor = document.getElementById("indoor");
+        let Outdoor = document.getElementById("outdoor");
+
+
+        let game_type = "";
+        Indoor.addEventListener("click", function () {
+            Indoor.setAttribute("checked", "checked");
+            Outdoor.removeAttribute("checked");
+            game_type = "indoor";
+        });
+
+        Outdoor.addEventListener("click", function () {
+            Outdoor.setAttribute("checked", "checked");
+            Indoor.removeAttribute("checked");
+            game_type = "outdoor";
+        });
+
+        function register() {
+            const game_name= document.getElementById("game_name").value;
+
+            if (!game_name) {
+                alert("Game Name is required!");
+                return;
+            }
+            if (!game_type) {
+                alert("Game Type is required!");
+                return;
+            }
+
+            const data = {
+                name: game_name,
+                type: game_type
+            };
+            fetch("addgame", {
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            }).then((res) => res.json())
+                .then((data) => {
+                    if (data === null){
+                        alert("Game already Exists");
+                    }else{
+                        alert("Successfully Game Added!");
+                    } window.location.href = "/admin/game";
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("An error occurred. Please try again later.");
+                });
+        }
+
+    </script>
+</body>
+
+</html>

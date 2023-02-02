@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from Database import models, database as db
 from Routes import authorize, admin, profile, tournament
 from Backend import Schema, Authenticate as Auth
+from fastapi.middleware.cors import CORSMiddleware
 
 
 models.db.Base.metadata.create_all(db.engine)
@@ -32,6 +33,14 @@ app = FastAPI(
         }
     }
 )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app.include_router(authorize.router)
 app.include_router(admin.router)

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADD TOURNAMENT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css"
+        referrerpolicy="no-referrer"
+        integrity="sha512-y6ZMKFUQrn+UUEVoqYe8ApScqbjuhjqzTuwUMEGMDuhS2niI8KA3vhH2LenreqJXQS+iIXVTRL2iaNfJbDNA1Q=="
+        crossorigin="anonymous" />
+    <style>
+        .main-container {
+            height: 186vh;
+        }
+
+        input:focus-visible {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex justify-center items-center main-container bg-gradient-to-b from-purple-600 via bg-pink-200">
+        <div class="w-1/4 shadow-lg p-7 rounded bg-white">
+            <p class="font-bold text-2xl text-center mt-3 mb-8"> TOURNAMENT REGISTRATION</p>
+            <div class="mb-2">
+                <label for="name" class="font-bold mb-2 text-sm">Tournament Name</label> <br />
+                <input type="text" id="tournament_name" placeholder="Enter Tounrnament Name"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
+            </div>
+            <div class="mb-2">
+                <label for="description" class="font-bold mb-2 text-sm">Tournament Description</label> <br />
+                <textarea type="text" id="tournament_desc" placeholder="Give Description of Tournament"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full"></textarea>
+            </div>
+            <div class="mb-2">
+                <label for="dob" class="font-bold mb-2 text-sm">Tournament Date</label>
+                <input type="date" id="tour_date"
+                    class="form-input rounded-md py-2 px-2 block w-full leading-5 text-purple-600 focus:outline-none focus:shadow-outline-blue-300 transition duration-150 ease-in-out">
+            </div>
+            <div class="mb-2">
+                <label for="dob" class="font-bold mb-2 text-sm">Last Day to Register:</label>
+                <input type="date" id="last_reg_date"
+                    class="form-input rounded-md py-2 px-2 block w-full leading-5 text-purple-600 focus:outline-none focus:shadow-outline-blue-300 transition duration-150 ease-in-out">
+            </div>
+            <div>
+                <label for="Coach" class="font-bold mb-2 text-sm">Select Coach</label> <br />
+                <select id="coach" class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full">
+                    <option value="0">--Select--</option>
+                    {% for c in coach %}
+                        <option value='{{ c.usn }}''>{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="Game" class="font-bold mb-2 text-sm">Select Game</label> <br />
+                <select id="game" class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full">
+                    <option value="0">--Select--</option>
+                    {% for g in game %}
+                        <option value='{{ g.game_id }}'>{{ g.game_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button
+                class=" block bg-gradiant-to-r  from-purple-700 via bg-pink-200 text-white pt-3 pb-3 pl-6 pr-6 rounded w-full mt-2 hover:bg-purple-500"
+                onclick="register()">
+                ADD TOURNAMENT </button>
+            <p class="text-center block mt-10">No intrested to add new Tournament<a href="tournament"
+                    class="text-center block text-purple-900">Tournament Page</a></p>
+        </div>
+    </div>
+    <script>
+
+
+        function register() {
+            const tournament_name = document.getElementById("tournament_name").value;
+            const tournament_desc = document.getElementById("tournament_desc").value;
+            const tour_date = document.getElementById("tour_date").value.toString();
+            const reg_date = document.getElementById("last_reg_date").value.toString();
+            const coach = document.getElementById("coach").value.toString();
+            const game = parseInt(document.getElementById("game").value);
+
+            if (!tournament_name || !tournament_desc || !tour_date || !reg_date || !coach || !game) {
+                alert("All fields are required!");
+                return;
+            }
+
+            const data = {
+                name: tournament_name,
+                description: tournament_desc,
+                date: tour_date,
+                last_reg_date: reg_date,
+                coach: coach,
+                game: game
+            };
+            fetch("addtournament", {
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data),
+            }).then((res) => res.json())
+                .then((data) => {
+                    if (data === null) {
+                        alert("Data already registered");
+                    } else {
+                        alert("Successfully registered!");
+                    }
+                    window.location.href = "/admin/tournament";
+                })
+                .catch((err) => {
+                    console.error(err);
+                    alert("An error occurred. Please try again later.");
+                });
+        }
+
+    </script>
+</body>
+
+</html>
