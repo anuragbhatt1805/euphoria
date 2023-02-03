@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <style>
+        .main-container {
+            height: 130vh;
+
+        }
+    </style>
+    <script>
+
+        function Delete(game_id) {
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+              }
+            
+            const user = getCookie("user");
+            const id = parseInt(game_id);
+            fetch(`/admin/game?game=${id}`, {
+                method: "DELETE",
+                headers: {
+                    "accept": "application/json"
+                }
+            })
+                .then(response => {
+                    response.json()
+                    if (user === "admin") {
+                        alert("Game is Successfully deleted");
+                    } else {
+                        alert("Game can only be deleted by Admin");
+                    }
+                    window.location.href = `/admin/game`;
+                })
+                .catch(error => {
+                    alert("Cannot Delete Due to Some Internal Server Error");
+                });
+        };
+    </script>
+</head>
+
+<body>
+    {% for g in data %}
+    <section class="text-gray-600 body-font" id="{{ g.tour_id }}">
+        <div class="flex justify-center items-center main-container  bg-indigo-400">
+            <div class="w-4/5 p-5 rounded bg-white">
+                <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
+                    class="rounded-full w-32 justify-center items-center">
+                <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ g.game_name }}</h1>
+                <h1 class="text-grey-300 text-sm p-1">Game Type:- <span class="text font-bold">{{ g.game_type }}</span></h1>
+                <div>
+                    <button class="text-xs text-red-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-red-500 hover:text-white text-bold" onclick="Delete('{{ g.game_id }}')">Delete</button>
+                </div>
+                <button class="text-xs text-green-700 border-3 py-2 px-3 rounded w-25 mt-2 hover:bg-green-800 hover:text-white text-bold" ><a href="/admin/addgame">ADD GAME</a></button>
+                </div>
+            </div>
+    </section>
+    {% endfor %}
+        
+
+</body>
+
+</html>

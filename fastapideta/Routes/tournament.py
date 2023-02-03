@@ -8,7 +8,7 @@ from typing import List
 
 
 router = APIRouter( prefix='/tournament', tags=['Tournament'])
-templates = Jinja2Templates(directory="Views/Users")
+templates = Jinja2Templates(directory="Views")
 db = database.get_db
 
 @router.get("/", response_class=HTMLResponse, response_model=List[Schema.Tournament], status_code=status.HTTP_200_OK)
@@ -17,12 +17,12 @@ def tournament(request:Request, current_user:Schema.UserData=Depends(Auth.get_cu
     # return tournament # remove response_class from decorator
     return templates.TemplateResponse("tournament.html", {"request":request, "data":tournament})
 
-@router.get("/{id}", response_class=HTMLResponse,  status_code=status.HTTP_200_OK)
+@router.get("/{id}", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def tournament_profile(request:Request, id:int, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):
     detail = Tournament.Find_Tournament(id, db)
     registration = Tournament.Find_Registration(id, db)
-    # return "data":{"tournament":detail, "register":registration} # remove response_class
-    return templates.TemplateResponse("tournament_profile.html", {"request":request, "data":{"tournament":detail, "register":registration}})
+    # return {"tournament":detail, "register":registration} # remove response_class
+    return templates.TemplateResponse("tournament_profile.html", {"request":request, "tournament":detail, "register":registration})
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 def register(request:Request, id:int, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):

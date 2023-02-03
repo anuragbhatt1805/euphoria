@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from Database import database
 from sqlalchemy.orm import Session
-from Backend import Schema, Admin, Authenticate as Auth
+from Backend import Schema, Admin, Tournament, Authenticate as Auth
 from typing import List
 
 router = APIRouter( prefix='/admin', tags=['Admin'])
@@ -79,16 +79,14 @@ def delete_game(game:int, current_user:Schema.UserData=Depends(Auth.get_current_
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized")
 
 ## <<<--------Tournament Section-------->>>
-@router.get("/tournament", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+@router.get("/tournament", response_class=HTMLResponse, response_model=List[Schema.Tournament], status_code=status.HTTP_200_OK)
 def tournament(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):
-    if current_user.user == 'admin':
-        RedirectResponse('/tournament')
+    if current_user.user == "admin":
+        tournament = Tournament.All_Tournament(db)
+        # return tournament # remove response_class from decorator
+        return templates.TemplateResponse("tournament.html", {"request":request, "data":tournament})
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized")
-
-@router.get("/select_tournament", status_code=status.HTTP_200_OK)
-def redirect_to_tournament(id:int, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    return RedirectResponse(f'/tournament/{id}')
 
 @router.get("/addtournament",response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def add_tournament_page(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <style>
+        .main-container {
+            height: 130vh;
+
+        }
+    </style>
+</head>
+
+<body>
+    {% for t in data %}
+    <section class="text-gray-600 body-font" id="{{ t.tour_id }}">
+        <div class="flex justify-center items-center main-container  bg-indigo-400">
+            <div class="w-3/4 p-5 rounded bg-white">
+                <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
+                    class="rounded-full w-32 justify-center items-center">
+                <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ t.name }}</h1>
+                <h1 class="text-grey-300 text-sm p-1">Tournament Date:- <span class="text font-bold">{{ t.date }}</span></h1>
+                <h1 class="text-grey-300 text-sm p-1">Last Registration Date:- <span class="text font-bold">{{ t.last_reg_date }}</span></h1>
+                <h1 class="text-grey-500 text-sm p-4 text-center"> <span class="text font-bold">Description:-</span>
+                    <p>{{ t.description }}</p>
+                </h1>
+                <div class="flex justify-between p-4">
+                    <div>
+                        <h1 class="text-xs text-gray-500">Staff ID of Coach:- <span class="text font-bold">{{ t.coach.usn }}</span></h1>
+                        <h1 class="text-xs text-gray-500">Name of Coach:- <span class="text font-bold">{{ t.coach.name }}</span></h1>
+                        <h1 class="text-xs text-gray-500">Mail Id of Coach:- <span class="text font-bold"><a href="mailto:{{ t.coach.email }}">{{ t.coach.email }}</a></span></h1>
+                        <h1 class="text-xs text-gray-500">DoB of Coach:- <span class="text font-bold">{{ t.coach.dob }}</span></h1>
+                        <br>
+                        <h1 class="text-xs uppercase text-gray-500">Game Name:- <span class="text font-bold">{{t.game.name}}</span></h1>
+                        <h1 class="text-xs uppercase text-gray-500">Game Type:- <span class="text font-bold">{{t.game.type}}</span></h1>
+
+                    </div>
+                    <div>
+                        <button
+                            class="text-xs text-purple-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-purple-500 hover:text-white text-bold"><a href="/tournament/{{t.tour_id}}">OPEN</a></button>
+                    </div>
+                </div>
+            </div>
+    </section>
+    {% endfor %}
+
+
+</body>
+
+</html>

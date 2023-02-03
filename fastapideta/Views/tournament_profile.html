@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Profile</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <style>
+        .main-container {
+            height: 130vh;
+
+        }
+    </style>
+    <script>
+
+        function Register(tour_id) {
+            function getCookie(name) {
+                var value = "; " + document.cookie;
+                var parts = value.split("; " + name + "=");
+                if (parts.length == 2) return parts.pop().split(";").shift();
+              }
+            
+            const user = getCookie("user");
+            const id = parseInt(tour_id);
+            const data = '';
+            fetch(`/tournament/register?id=${id}`, {
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: new URLSearchParams(data)
+            })
+                .then(response => {
+                    response.json()
+                    if (user === "admin") {
+                        alert("Admin cannot register for any event");
+                    } else if (user === "coach") {
+                        alert("Coach are not allowed to take part in tournament");
+                    } else {
+                        alert("Thanks for Registering to the tournament\nAll the best for the game");
+                    }
+                    window.location.href = `/tournament/${id}`;
+                })
+                .catch(error => {
+                    alert("Cannot Register Due to Some Internal Server Error");
+                });
+        };
+    </script>
+</head>
+
+<body>
+    <section class="text-gray-600 body-font">
+        <div class="flex justify-center items-center main-container  bg-indigo-400">
+            <div class="w-3/4 p-5 rounded bg-white">
+                <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
+                    class="rounded-full w-32 justify-center items-center">
+                <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ tournament.name }}</h1>
+                <h1 class="text-grey-300 text-sm p-1">Tournament Date:- <span class="text font-bold">{{ tournament.date
+                        }}</span></h1>
+                <h1 class="text-grey-300 text-sm p-1">Last Registration Date:- <span class="text font-bold">{{
+                        tournament.last_reg_date }}</span></h1>
+                <h1 class="text-grey-500 text-sm p-4 text-center"> <span class="text font-bold">Description:-</span>
+                    <p>{{ tournament.description }}</p>
+                </h1>
+                <div class="flex justify-between p-4">
+                    <div>
+                        <h1 class="text-xs text-gray-500">Staff ID of Coach:- <span class="text font-bold">{{
+                                tournament.coach.usn }}</span></h1>
+                        <h1 class="text-xs text-gray-500">Name of Coach:- <span class="text font-bold">{{
+                                tournament.coach.name }}</span></h1>
+                        <h1 class="text-xs text-gray-500">Mail Id of Coach:- <span class="text font-bold"><a
+                                    href="mailto:{{ tournament.coach.email }}">{{ tournament.coach.email }}</a></span></h1>
+                        <h1 class="text-xs text-gray-500">DoB of Coach:- <span class="text font-bold">{{
+                                tournament.coach.dob }}</span></h1>
+                        <br>
+                        <h1 class="text-xs uppercase text-gray-500">Game Name:- <span
+                                class="text font-bold">{{tournament.game.name}}</span></h1>
+                        <h1 class="text-xs uppercase text-gray-500">Game Type:- <span
+                                class="text font-bold">{{tournament.game.type}}</span></h1>
+
+                    </div>
+                </div>
+                    {% if register|length > 0 %}
+                        <div>
+                            <h1 class="text-grey-600 font-semibold text-l mt-5">Registered Players</h1>
+                            {% for r in register %}
+                            <h1 class="text-xs text-gray-500">Player ID: <span class="text font-bold">{{ r.usn }}</span></h1>
+                            <h1 class="text-xs text-gray-500">Player Name: <span class="text font-bold">{{ r.name }}</span></h1>
+                            <h1 class="text-xs text-gray-500">Player Mail ID: <span class="text font-bold"><a href="mailto:{{ r.email }}">{{ r.email }}</a></span></h1>
+                            <h1 class="text-xs text-gray-500">Player Date of Birth: <span class="text font-bold">{{ r.dob }}</span></h1>
+                            <br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div>
+                        <button class="text-xs text-purple-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-purple-500 hover:text-white text-bold" onclick="Register('{{ tournament.tour_id }}')">Register</button>
+                    </div>
+            </div>
+    </section>
+</body>
+
+
+</html>
