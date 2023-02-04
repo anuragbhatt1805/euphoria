@@ -40,62 +40,68 @@
     <link rel="stylesheet"
         href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
     <title>All Profile</title>
-    {% for d in data %}
     <section class="pt-16">
-        <div class="w-full lg:w-4/12 px-4 mx-auto">
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
-                <div class="px-6">
-                    <div class="flex flex-wrap justify-center">
-                        <div class="w-full px-4 flex justify-center">
-                            <div class="relative">
-                                <img src="https://i.pinimg.com/564x/e6/6d/0f/e66d0f10776c83128e4fc46217b06e2f.jpg"
-                                    class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+        {% for d in data %}
+        <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
+            <div class="w-full lg:w-4/12 px-4 mx-auto">
+                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
+                    <div class="px-6">
+                        <div class="flex flex-wrap justify-center">
+                            <div class="w-full px-4 flex justify-center">
+                                <div class="relative">
+                                    <img src="https://i.pinimg.com/564x/e6/6d/0f/e66d0f10776c83128e4fc46217b06e2f.jpg"
+                                        class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-full px-4 text-center mt-16">
-                            <div class="flex justify-center py-4 lg:pt-4 pt-4">
-                                <div class="mb-2 text-blueGray-600 mt-10">
-                                    <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                    {{ d.role.capitalize() }} Profile
+                            <div class="w-full px-4 text-center mt-16">
+                                <div class="flex justify-center py-4 lg:pt-4 pt-4">
+                                    <div class="mb-2 text-blueGray-600 mt-10">
+                                        <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+                                        {{ d.role.capitalize() }} Profile
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center mt-3">
+                        <div class="text-center mt-3">
 
-                        <h3 class="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                            {{ d.name }}
-                        </h3>
-                        <h3 class="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                            {{ d.usn }}
-                        </h3>
-                        <h4 class="text-l font-semiitalic leading-normal mb-2 text-blueGray-600 mb-2">
-                            <i class="fas fa-envelope mr-2 text-lg text-blueGray-400"></i>
-                            {{ d.email }}
-                        </h4>
-                        <h4 class="text-l font-semiitalic leading-normal mb-2 text-blueGray-600 mb-2">
-                            <i class="fas fa-calendar-alt mr-2 text-lg text-blueGray-400"></i>
-                            {{ d.dob }}
-                        </h4>
+                            <h3 class="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                {{ d.name }}
+                            </h3>
+                            <h3 class="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                {{ d.usn }}
+                            </h3>
+                            <h4 class="text-l font-semiitalic leading-normal mb-2 text-blueGray-600 mb-2">
+                                <i class="fas fa-envelope mr-2 text-lg text-blueGray-400"></i>
+                                {{ d.email }}
+                            </h4>
+                            <h4 class="text-l font-semiitalic leading-normal mb-2 text-blueGray-600 mb-2">
+                                <i class="fas fa-calendar-alt mr-2 text-lg text-blueGray-400"></i>
+                                {{ d.dob }}
+                            </h4>
 
 
-                    </div>
-                    <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
-                        <div class="flex flex-wrap justify-center">
-                            <div class="mb-2 text-blueGray-600">
-                                <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-                                Euphoria Sports
-                            </div>
                         </div>
-                        <button
-                            class="text-xs text-red-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-red-500 hover:text-white text-bold"
-                            onclick="Delete('{{ d.usn }}')">Delete</button>
+                        <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+                            <div class="flex flex-wrap justify-center">
+                                <div class="mb-2 text-blueGray-600">
+                                    <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>
+                                    Euphoria Sports
+                                </div>
+                            </div>
+                            <button
+                                class="text-xs text-red-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-red-500 hover:text-white text-bold"
+                                onclick="Delete('{{ d.usn }}')">Delete</button>
+                        </div>
                     </div>
                 </div>
+                <section>
+                    <div class="flex justify-center items-center main-container  bg-indigo-400">
+                        <div class="w-3/4 p-5 rounded bg-white">
+                </section>
             </div>
         </div>
+        {% endfor %}
     </section>
-    {% endfor %}
 
 </head>
 
