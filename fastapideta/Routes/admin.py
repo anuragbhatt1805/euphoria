@@ -28,10 +28,6 @@ def profile(request:Request, current_user:Schema.UserData=Depends(Auth.get_curre
     else:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authorized")
 
-@router.get("/select_profile", status_code=status.HTTP_200_OK)
-def redirect_to_profile(username:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    return RedirectResponse(f'/profile/{username}')
-
 @router.delete("/profile", status_code=status.HTTP_202_ACCEPTED)
 def delete_profile(username:str, current_user:Schema.UserData=Depends(Auth.get_current_user), db:Session=Depends(db)):
     if current_user.user == 'admin':
