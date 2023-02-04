@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournaments</title>
+    <title>Games</title>
     <script src="https://cdn.tailwindcss.com">
     </script>
     <style>
         .main-container {
-            height: 130vh;
+            height: 77vh;
 
         }
     </style>
@@ -51,7 +51,7 @@
     {% for g in data %}
     <section class="text-gray-600 body-font" id="{{ g.tour_id }}">
         <div class="flex justify-center items-center main-container  bg-indigo-400">
-            <div class="w-4/5 p-5 rounded bg-white">
+            <div class="w-3/4 p-5 rounded bg-white">
                 <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
                     class="rounded-full w-32 justify-center items-center">
                 <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ g.game_name }}</h1>
