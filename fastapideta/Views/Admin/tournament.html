@@ -10,7 +10,7 @@
     </script>
     <style>
         .main-container {
-            height: 130vh;
+            height: 100vh;
 
         }
     </style>
@@ -48,6 +48,7 @@
 </head>
 
 <body>
+    {% if data|length > 0 %}
     {% for t in data %}
     <section class="text-gray-600 body-font" id="{{ t.tour_id }}">
         <div class="flex justify-center items-center main-container  bg-indigo-400">
@@ -79,6 +80,18 @@
             </div>
     </section>
     {% endfor %}
+    {% else %}
+    <section class="text-gray-600 body-font">
+        <div class="flex justify-center items-center main-container  bg-indigo-400">
+            <div class="w-3/4 p-5 rounded bg-white">
+                
+                <h1 class="text-grey-900 font-semibold text-xl mt-5">No Tournament Added</h1>
+                
+                <button class="text-xs text-green-700 border-3 py-2 px-3 rounded w-25 mt-2 hover:bg-green-800 hover:text-white text-bold" ><a href="/admin/addtournament">ADD GAME</a></button>
+                </div>
+            </div>
+    </section>
+    {% endif %}
         
 
 </body>

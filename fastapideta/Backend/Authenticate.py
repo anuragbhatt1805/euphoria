@@ -79,7 +79,7 @@ def create_access_token(data:dict, user:str):
     return jwt_token
 
 def get_user(username:str, db:Session):
-    if len(username) == 10:
+    if len(username) <= 10:
         user = db.query(models.User).filter(models.User.usn == username.lower()).first()
     else:
         user = db.query(models.User).filter(models.User.email == username).first()

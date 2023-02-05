@@ -50,7 +50,7 @@
                 <select id="coach" class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full">
                     <option value="0">--Select--</option>
                     {% for c in coach %}
-                        <option value='{{ c.usn }}''>{{ c.name }}</option>
+                        <option value='{{ c.usn }}'>{{ c.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -84,6 +84,16 @@
 
             if (!tournament_name || !tournament_desc || !tour_date || !reg_date || !coach || !game) {
                 alert("All fields are required!");
+                return;
+            }
+
+            if (document.getElementById("coach").value === '0'){
+                alert("Please select any one of the coach");
+                return;
+            }
+
+            if (document.getElementById("game").value === '0'){
+                alert("Please select any one of the game");
                 return;
             }
 

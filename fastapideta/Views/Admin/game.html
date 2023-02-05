@@ -48,22 +48,35 @@
 </head>
 
 <body>
-    {% for g in data %}
-    <section class="text-gray-600 body-font" id="{{ g.tour_id }}">
+    {% if data|length > 0 %}
+        {% for g in data %}
+        <section class="text-gray-600 body-font" id="{{ g.tour_id }}">
+            <div class="flex justify-center items-center main-container  bg-indigo-400">
+                <div class="w-3/4 p-5 rounded bg-white">
+                    <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
+                        class="rounded-full w-32 justify-center items-center">
+                    <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ g.game_name }}</h1>
+                    <h1 class="text-grey-300 text-sm p-1">Game Type:- <span class="text font-bold">{{ g.game_type }}</span></h1>
+                    <div>
+                        <button class="text-xs text-red-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-red-500 hover:text-white text-bold" onclick="Delete('{{ g.game_id }}')">Delete</button>
+                    </div>
+                    <button class="text-xs text-green-700 border-3 py-2 px-3 rounded w-25 mt-2 hover:bg-green-800 hover:text-white text-bold" ><a href="/admin/addgame">ADD GAME</a></button>
+                    </div>
+                </div>
+        </section>
+        {% endfor %}
+    {% else %}
+    <section class="text-gray-600 body-font">
         <div class="flex justify-center items-center main-container  bg-indigo-400">
             <div class="w-3/4 p-5 rounded bg-white">
-                <img src="https://i.pinimg.com/originals/75/46/9d/75469d0674fe7369da4738be12579be0.png"
-                    class="rounded-full w-32 justify-center items-center">
-                <h1 class="text-grey-900 font-semibold text-xl mt-5">{{ g.game_name }}</h1>
-                <h1 class="text-grey-300 text-sm p-1">Game Type:- <span class="text font-bold">{{ g.game_type }}</span></h1>
-                <div>
-                    <button class="text-xs text-red-500 border-2 py-1 px-2 rounded w-25 mt-2 hover:bg-red-500 hover:text-white text-bold" onclick="Delete('{{ g.game_id }}')">Delete</button>
-                </div>
+                
+                <h1 class="text-grey-900 font-semibold text-xl mt-5">No Game Added</h1>
+                
                 <button class="text-xs text-green-700 border-3 py-2 px-3 rounded w-25 mt-2 hover:bg-green-800 hover:text-white text-bold" ><a href="/admin/addgame">ADD GAME</a></button>
                 </div>
             </div>
     </section>
-    {% endfor %}
+    {% endif %}
         
 
 </body>
