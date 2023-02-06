@@ -58,25 +58,3 @@ def homepage(request:Request):
 @app.get('/about', tags=['Home'], status_code=status.HTTP_200_OK)
 def homepage(request:Request):
     return template.TemplateResponse("about.html", {"request":request})
-
-
-## <<<--------Documentation Authorization-------->>>
-@app.get('/openapi', tags=['Home'], status_code=status.HTTP_306_RESERVED)
-def documentation(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    if current_user.user == 'admin':
-        return RedirectResponse('/docs', status_code=status.HTTP_200_OK)
-
-@app.get('/swaggerai', tags=['Home'], status_code=status.HTTP_306_RESERVED)
-def documentation(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    if current_user.user == 'admin':
-        return RedirectResponse('/redoc', status_code=status.HTTP_200_OK)
-
-@app.get('/docs', tags=['Home'], status_code=status.HTTP_306_RESERVED)
-def documentation(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    if current_user.user == 'admin':
-        return RedirectResponse('/docs', status_code=status.HTTP_200_OK)
-
-@app.get('/redoc', tags=['Home'], status_code=status.HTTP_306_RESERVED)
-def documentation(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    if current_user.user == 'admin':
-        return RedirectResponse('/redoc', status_code=status.HTTP_200_OK)

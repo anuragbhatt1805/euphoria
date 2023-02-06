@@ -22,6 +22,10 @@ def Find_Registration(id:int, db:Session):
 def Add_Register(id:int, user:str, db:Session):
     try:
         tournament = Find_Tournament(id, db)
+        register = Find_Registration(id, db)
+        usns = [i.usn for i in register]
+        if user in usns:
+            return None
         if tournament.last_reg_date >= str(datetime.now().date()):
             new_register = models.Registration(r_tour=id, r_player=user, r_date=str(datetime.now().date()))
             db.add(new_register)
