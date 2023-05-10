@@ -15,7 +15,7 @@ app = FastAPI(
     version="2.1.0",
     contact={
         "Developer 1": {
-            "Name" : "Anurag Bhatt",
+            "Name" : "Anurag Bhatt Master",
             "USN"  : "1HK20CS028",
             "Mail" : "1hk20cs028@hkbk.edu.in",
             "Role" : "Backend Engineer"
